@@ -144,7 +144,7 @@ fn parse_coordinate(input: &str, is_longitude: bool) -> Result<f64, String> {
     if input.is_empty() {
         return Err("Coordinate input is empty".to_string());
     }
-    // 如果以字母开头，则认为首字符为方向
+    // If starts with letter, first character is direction
     let first = input.chars().next().unwrap();
     if "NSEW".contains(first) {
         let direction = first;
@@ -171,7 +171,7 @@ fn parse_coordinate(input: &str, is_longitude: bool) -> Result<f64, String> {
                 return Ok(decimal);
             }
         }
-        // 紧凑格式处理，例如 N394022.1
+        // Process compact format, e.g. N394022.1
         let num_str: String = remaining.chars().filter(|c| c.is_digit(10) || *c == '.').collect();
         if num_str.is_empty() {
             return Err("The numeric part of the coordinate is empty".to_string());
@@ -199,11 +199,11 @@ fn parse_coordinate(input: &str, is_longitude: bool) -> Result<f64, String> {
         }
         return Ok(decimal);
     }
-    // 尝试直接解析为浮点数
+    // Try to parse as float directly
     if let Ok(val) = input.parse::<f64>() {
         return Ok(val);
     }
-    // 拆分格式，例如 "39°40'22.1\"S" 或 "-39 40 22.1"
+    // Handle split format, e.g. "39°40'22.1\"S" or "-39 40 22.1"
     let mut parts: Vec<&str> = input.split(|c| "°'\"’” ".contains(c))
         .filter(|s| !s.is_empty())
         .collect();
@@ -285,12 +285,12 @@ fn calculate_fix(
     get_point(optimal_t)
 }
 
-/// 以下辅助函数用于过滤输入内容
-/// 对于Distance输入框：只允许数字和小数点
+/// Helper functions for input filtering
+/// For Distance input: only allow numbers and decimal points
 fn filter_distance(input: &str) -> String {
     input.chars().filter(|c| c.is_digit(10) || *c == '.').collect()
 }
-/// 对于经度输入框：字母部分只允许 E 和 W，其它字母过滤，其他字符保留
+/// For longitude input: only allow E/W letters, filter other alphabets
 fn filter_longitude(input: &str) -> String {
     input.chars().filter(|c| {
         if c.is_alphabetic() {
@@ -301,7 +301,7 @@ fn filter_longitude(input: &str) -> String {
         }
     }).collect()
 }
-/// 对于纬度输入框：字母部分只允许 N 和 S，其它字母过滤，其他字符保留
+/// For latitude input: only allow N/S letters, filter other alphabets
 fn filter_latitude(input: &str) -> String {
     input.chars().filter(|c| {
         if c.is_alphabetic() {
