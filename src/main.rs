@@ -315,7 +315,7 @@ fn filter_latitude(input: &str) -> String {
 
 /// Main application implementing the GUI with eframe/egui
 struct AviationCoordinateCalculatorApp {
-    // 输入字段
+    // Input Parameter
     opposite_runway_lat: String,
     opposite_runway_lon: String,
     runway_lat: String,
@@ -351,7 +351,7 @@ impl Default for AviationCoordinateCalculatorApp {
 
 impl eframe::App for AviationCoordinateCalculatorApp {
     fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
-        // 每帧先进行输入过滤
+        // Input Filtering
         self.dist_dme1 = filter_distance(&self.dist_dme1);
         self.dist_dme2 = filter_distance(&self.dist_dme2);
         self.opposite_runway_lat = filter_latitude(&self.opposite_runway_lat);
@@ -364,7 +364,6 @@ impl eframe::App for AviationCoordinateCalculatorApp {
         self.dme2_lon = filter_longitude(&self.dme2_lon);
 
         egui::CentralPanel::default().show(ctx, |ui| {
-            // 将所有内容包裹在一个垂直滚动区域内
             egui::ScrollArea::vertical().show(ui, |ui| {
                 ui.heading("Parameter Configuration");
 
@@ -496,8 +495,6 @@ impl eframe::App for AviationCoordinateCalculatorApp {
                 ui.separator();
                 ui.heading("Calculation Results");
                 ui.label(&self.result);
-                // 可选：加点空白让底部内容更明显
-                ui.add_space(20.0);
             });
         });
     }
