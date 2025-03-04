@@ -1,0 +1,9 @@
+[package]
+name = "fix_calculator"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+eframe = "0.31.0"
+egui = "0.31.0"
+regex = "1"
